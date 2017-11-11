@@ -8,7 +8,12 @@ module Cloudant
       @username = args[:username]
       @password = args[:password]
       @database = args[:database]
-      @base_uri = "https://#{username}.cloudant.com/"
+      @domain   = args[:domain]
+      if @username
+        @base_uri = "https://#{@username}.#{@domain}/"
+      else
+        @base_uri = "https://#{@domain}/"
+      end
       @conn     = start_connection(username,password,base_uri)
 
       @conn.cookie_auth
