@@ -2,17 +2,18 @@ module Cloudant
   class Client
     include Cloudant::API
     attr_accessor :database, :base_uri
-    attr_reader   :username, :password
+    attr_reader   :username, :password, :protocol, :domain
 
     def initialize(args)
       @username = args[:username]
       @password = args[:password]
       @database = args[:database]
+      @protocol = args[:protocol]
       @domain   = args[:domain]
       if @username
-        @base_uri = "https://#{@username}.#{@domain}/"
+        @base_uri = "#{protocol}://#{username}.#{domain}/"
       else
-        @base_uri = "https://#{@domain}/"
+        @base_uri = "#{protocol}://#{domain}/"
       end
       @conn     = start_connection(username,password,base_uri)
 
