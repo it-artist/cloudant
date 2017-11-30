@@ -11,14 +11,10 @@ module Cloudant
       @protocol = args[:protocol]
       @port = args[:port]
       @domain   = args[:domain]
-      puts "args"
-      puts args.inspect
       @base_uri = "#{protocol}://#{domain}"
       @base_uri += ":#{port}" if port
       @base_uri += '/'
-      puts @base_uri.inspect
       @conn     = start_connection(username, password, base_uri, port)
-      puts @conn.inspect
       @conn.cookie_auth
     end
 
