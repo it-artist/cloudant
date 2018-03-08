@@ -2,7 +2,7 @@ module Cloudant
   class Client
     include Cloudant::API
     attr_accessor :database, :base_uri
-    attr_reader   :username, :password, :protocol, :domain, :port
+    attr_reader   :username, :password, :protocol, :domain, :port, :protocol
 
     def initialize(args)
       @username = args[:username]
@@ -14,7 +14,7 @@ module Cloudant
       @base_uri = "#{protocol}://#{domain}"
       @base_uri += ":#{port}" if port
       @base_uri += '/'
-      @conn     = start_connection(username, password, base_uri, port)
+      @conn     = start_connection(username, password, base_uri, port, protocol)
       @conn.cookie_auth
     end
 
@@ -223,8 +223,8 @@ module Cloudant
     end
 
     private
-    def start_connection(username, password, base_uri, port)
-      Connection.new({username: username, password: password, base_uri: base_uri, port: port})
+    def start_connection(username, password, base_uri, port, protocol)
+      Connection.new({username: username, password: password, base_uri: base_uri, port: port, protocol: protocol})
     end
 
     def bulk_docs(docs)

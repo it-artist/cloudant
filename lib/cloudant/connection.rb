@@ -7,12 +7,14 @@ module Cloudant
       @username = args[:username]
       @password = args[:password]
       @base_uri = args[:base_uri]
-      @port = args[:port]
+      @port = args[:port].presence || 80
+      @protocol = args[:protocol]
     end
 
     def query(args)
       base     = URI.parse("#{base_uri}#{args[:url_path]}")
-      http     = Net::HTTP.new(base.host, @port || 80)
+      http     = Net::HTTP.new(base.host, @port)
+      http.use_ssl = @protocol == 'https'
       request  = new_net_http_crud(args[:method],base)
       
       args[:opts] ? opts = args[:opts] : opts = { "Cookie" => cookies }
